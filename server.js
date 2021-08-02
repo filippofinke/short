@@ -1,4 +1,5 @@
 const express = require("express");
+const validUrl = require("valid-url");
 const nanoid = require("nanoid").nanoid;
 const app = express();
 
@@ -32,7 +33,7 @@ app.get("/:id", (req, res) => {
 
 app.post("/", (req, res) => {
   let url = req.body.url;
-  if (url) {
+  if (url && validUrl.isWebUri(url)) {
     let id = exists(url) || generateId();
     shorts[id] = url;
     return res.send(id);
